@@ -1,0 +1,17 @@
+<input type="text" [(ngModel)]="searcKeyword">
+<button (click)="makeSearch()"> Search</button>
+
+<div class="movies">
+
+  <div *ngFor="let item of movies" class="movie">
+      <div class="Title"> {{ item.Title }} </div>
+      <div class="Year"> {{ item.Year }} </div>
+      <div class="Type"> {{ item.Type }} </div>
+      <img class="Poster" [src]="item.Poster"  alt="Poster">
+  </div>
+
+</div>
+
+
+
+<div *ngIf="errorMessage" style="color: red"> {{ errorMessage }}</div>
