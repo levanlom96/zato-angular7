@@ -1,17 +1,42 @@
-<input type="text" [(ngModel)]="searcKeyword">
-<button (click)="makeSearch()"> Search</button>
+<div class="listing">
 
-<div class="movies">
+  <div class="listing__action">
 
-  <div *ngFor="let item of movies" class="movie">
-      <div class="Title"> {{ item.Title }} </div>
-      <div class="Year"> {{ item.Year }} </div>
-      <div class="Type"> {{ item.Type }} </div>
-      <img class="Poster" [src]="item.Poster"  alt="Poster">
+    <ul class="listing__genres">
+      <li *ngFor="let item of genres" (click)="selectGenre(item)">
+        {{ item.name }}
+      </li>
+    </ul>
+
+    <button (click)="getAllGenres()"> Get all genres</button> 
+  </div>
+  
+  <div class="listing__action">
+      <input type="text" [(ngModel)]="genreName" placeholder="Name of new genre">
+      <br /> <br />
+
+      <button (click)="addNewGenre()" > Add new genre + </button> 
+  </div>
+
+  <div class="listing__action">
+    <div *ngIf="selectedGenre" class="listing__selected-genre">
+      {{ selectedGenre.name }}
+    </div>
+    <br/> <br/>
+
+    <input type="text" [(ngModel)]="editGenreName" placeholder="New name for the genre">
+    <br/> <br/>
+
+    <button (click)="editGenreNameAction()"> Edit genre </button>
+  </div>
+
+  <div class="listing__action">
+    <div *ngIf="selectedGenre" class="listing__selected-genre">
+      {{ selectedGenre.name }}
+    </div>
+    <br/> <br/>
+
+    <button (click)="deleteGenre()"> Delete Genre </button>
   </div>
 
 </div>
-
-
-
-<div *ngIf="errorMessage" style="color: red"> {{ errorMessage }}</div>
