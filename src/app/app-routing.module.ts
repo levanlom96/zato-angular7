@@ -10,6 +10,10 @@ const routes: Routes = [
     path: 'listing',
     loadChildren: () => import('./listing/listing.module').then(m => m.ListingModule)
   },
+  {
+    path: 'form',
+    loadChildren: () => import('./form-validation/form-validation.module').then(m => m.FormValidationModule)
+  }
 ];
 
 @NgModule({
