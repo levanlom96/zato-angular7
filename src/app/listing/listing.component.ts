@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ClientService } from './Services/client.service';
 
 @Component({
   selector: 'app-listing',
@@ -12,14 +12,58 @@ export class ListingComponent implements OnInit {
   editGenreName = '';
   selectedGenre = null
 
-  constructor(private httpClient: HttpClient) { }
+  loggedInUser = null;
+
+  username = '';
+  password = '';
+
+  username1 = '';
+  password1 = '';
+
+  message = '';
+
+  constructor(
+    private client: ClientService,
+  ) { }
 
   ngOnInit() { }
+
+  login() {
+    // Send request
+    console.log('username: ', this.username, 'password: ', this.password);
+
+    const request = {
+      username: this.username,
+      password: this.password
+    };
+
+    this.client.post('http://localhost:3200/api/login', request).toPromise().then(
+      (response: any) => {
+        console.log('Response from server: ', response);
+        this.client.setToken(response.token);
+      },
+      (err) => { console.log(err) }
+    );
+  }
+
+  register() {
+    const request = {
+      username: this.username1,
+      password: this.password1
+    };
+
+    this.client.post('http://localhost:3200/api/register', request).toPromise().then(
+      (response) => {
+        console.log('Response from server: ', response);
+      },
+      (err) => { console.log(err) }
+    );
+  }
 
   // Async -> await
   async getAllGenres() {
     try {
-      const promise = await this.httpClient.get('http://localhost:3200/api/genres').toPromise();
+      const promise = await this.client.get('http://localhost:3200/api/genres').toPromise();
       this.genres = promise;
 
     } catch (error) {
@@ -36,7 +80,7 @@ export class ListingComponent implements OnInit {
       name: this.genreName
     };
 
-    this.httpClient.post('http://localhost:3200/api/genres', request).toPromise().then(
+    this.client.post('http://localhost:3200/api/genres', request).toPromise().then(
       () => { this.getAllGenres() },
       (err) => { console.log(err) }
     );
@@ -49,7 +93,7 @@ export class ListingComponent implements OnInit {
       name: this.editGenreName
     };
 
-    this.httpClient.put(`http://localhost:3200/api/genres/${this.selectedGenre.id}`, request).toPromise().then(
+    this.client.put(`http://localhost:3200/api/genres/${this.selectedGenre.id}`, request).toPromise().then(
       (data: any) => {
         this.getAllGenres();
         this.selectedGenre.name = data.name;
@@ -61,7 +105,7 @@ export class ListingComponent implements OnInit {
   deleteGenre() {
     if (!this.selectedGenre) { return }
 
-    this.httpClient.delete(`http://localhost:3200/api/genres/${this.selectedGenre.id}`).toPromise().then(
+    this.client.delete(`http://localhost:3200/api/genres/${this.selectedGenre.id}`).toPromise().then(
       () => {
         this.getAllGenres();
         this.selectedGenre = null;

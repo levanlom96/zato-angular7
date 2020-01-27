@@ -1,5 +1,19 @@
 <div class="listing">
 
+  <div class="listing__login">
+    <input type="text" [(ngModel)]="username1" placeholder="username"> <br/>
+    <input type="password" [(ngModel)]="password1" placeholder="password"> <br/>
+    <button (click)="register()">Register</button> <br/>
+
+    {{ message }}
+  </div>
+
+  <div class="listing__login">
+    <input type="text" [(ngModel)]="username" placeholder="username"> <br/>
+    <input type="password" [(ngModel)]="password" placeholder="password"> <br/>
+    <button (click)="login()">Log in</button> <br/>
+  </div>
+
   <div class="listing__action">
 
     <ul class="listing__genres">
