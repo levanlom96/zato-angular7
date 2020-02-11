@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validator, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
+import { nameValidator, idValidator } from './validator';
 
 @Component({
   selector: 'app-form-validation',
@@ -9,28 +10,26 @@ import { FormGroup, FormControl, Validator, ValidatorFn } from '@angular/forms';
 export class FormValidationComponent implements OnInit {
 
   myForm: FormGroup;
+  error = [];
 
   constructor() { }
 
   ngOnInit() {
     this.myForm = new FormGroup(
       {
+        'id': new FormControl(),
         'name': new FormControl(),
         'alterEgo': new FormControl(),
         'power': new FormControl()
       },
-      { validators: nameValidator }
+      { validators: [nameValidator, idValidator] }
     );
   }
 
   dawere() {
     console.log('validation: ', this.myForm.valid);
     console.log('errors: ', this.myForm.errors);
+    this.error = [];
+    this.error = this.myForm.errors && this.myForm.errors.idErrors ? this.myForm.errors.idErrors : [];
   }
-}
-
-const nameValidator: ValidatorFn = (form: FormGroup) => {
-  const name = form.get('name');
-  const alterEgo = form.get('alterEgo');
-  return name && alterEgo && name.value === alterEgo.value ? {} : null;
 }

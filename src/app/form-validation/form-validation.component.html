@@ -3,10 +3,21 @@
 </p>
 
 <form [formGroup]="myForm" >
-  <input type="text" formControlName="name">
-  <input type="text" formControlName="alterEgo">
-  <input type="text" formControlName="power">
+  <div>
+    <input type="text" formControlName="id" placeholder="ID">
+  </div>
+  <div>
+    <input type="text" formControlName="name" placeholder="Name">
+  </div>
+  <div>
+    <input type="text" formControlName="alterEgo" placeholder="Alter Ego">
+  </div>
+  <div>
+    <input type="text" formControlName="power" placeholder="Power">
+  </div>
 </form>
+
+<div *ngFor="let item of error"> {{ item }}</div>
 
 
 <button (click)="dawere()"> Write mnishvneloba</button>
